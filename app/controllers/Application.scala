@@ -6,7 +6,7 @@ import play.api.libs.oauth._
 
 object Application extends Controller with OAuthAuthentication {
 
-  def index = Authenticated { tokens => request =>
+  def index = Authenticated { request =>
     Ok(views.html.index("Your new application is ready."))
   }
 
