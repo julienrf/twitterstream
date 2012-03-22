@@ -16,7 +16,7 @@ object Application extends Controller with OAuthAuthentication {
   val authenticateCall = routes.Application.authenticate
   val authenticatedCall = routes.Application.index
 
-  val consumerKey = ConsumerKey("yzfT2vhgsBjgWEquQHSCsg", "mtVRo5tJ0xJ4ZK8l7pAowaYjMSZRGdYY9NphtWVp5dA")
+  val consumerKey = ConsumerKey("UstozDw940RBShjqOhNQ", "DgJXSk2HAuDUaqwDqX8L6wb7Q15EGrzeT7qEJzACLA")
   val oAuth = OAuth(ServiceInfo("https://api.twitter.com/oauth/request_token",
     "https://api.twitter.com/oauth/access_token",
     "https://api.twitter.com/oauth/authorize",
@@ -35,4 +35,5 @@ object Application extends Controller with OAuthAuthentication {
         .get(tweets => EventSource &> socket)
     } withHeaders CONTENT_TYPE -> "text/event-stream"
   }
+
 }
