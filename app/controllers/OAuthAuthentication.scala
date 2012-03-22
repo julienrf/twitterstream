@@ -37,9 +37,9 @@ trait OAuthAuthentication extends Controller {
     result.right.getOrElse(InternalServerError("Authentication failed!"))
   }
 
-  def Authenticated(action: RequestHeader => Result) = Action { implicit request =>
+  def Authenticated(action: RequestToken => RequestHeader => Result) = Action { implicit request =>
     sessionTokens match {
-      case Some(tokens) => action(request)
+      case Some(tokens) => action(tokens)(request)
       case None => Redirect(authenticateCall)
     }
   }

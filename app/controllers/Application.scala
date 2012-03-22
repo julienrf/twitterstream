@@ -9,7 +9,7 @@ import views._
 
 object Application extends Controller with OAuthAuthentication {
 
-  def index = Authenticated { request =>
+  def index = Authenticated { _ => request =>
     Ok(html.index())
   }
 
@@ -22,8 +22,7 @@ object Application extends Controller with OAuthAuthentication {
     "https://api.twitter.com/oauth/authorize",
     consumerKey))
 
-  def tweets(keywords: String) = Action { implicit request =>
-    val token = Application.sessionTokens(request).get
+  def tweets(keywords: String) = Authenticated { token => implicit request =>
 
     val EventSource = Enumeratee.map[Array[Byte]] { bytes =>
       "data:" + new String(bytes) + "\n\n"
