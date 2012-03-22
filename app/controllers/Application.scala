@@ -31,8 +31,8 @@ object Application extends Controller with OAuthAuthentication {
     Ok.stream { socket: Socket.Out[String] =>
       WS.url("https://stream.twitter.com/1/statuses/filter.json?track=" + keywords)
         .sign(OAuthCalculator(consumerKey, token))
-        .get(tweets => EventSource &> socket)
-    } withHeaders CONTENT_TYPE -> "text/event-stream"
+        .get(_ => EventSource &> socket)
+    } withHeaders CONTENT_TYPE -> EVENT_STREAM
   }
 
 }
