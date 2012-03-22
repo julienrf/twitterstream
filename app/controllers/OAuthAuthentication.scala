@@ -4,7 +4,7 @@ import play.api.libs.oauth._
 import play.api.mvc._
 import play.api.Logger
 
-trait OAuthAuthentication extends Controller {
+trait OAuthAuthentication { this: Controller =>
 
   def authenticateCall: Call
   def authenticatedCall: Call
