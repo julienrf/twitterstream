@@ -10,9 +10,7 @@
       source = new EventSource(Routes.controllers.Application.tweets(input.value).url);
       source.onmessage = function (e) {
         console.log(e.data);
-        var tweet = document.createElement('div');
-        tweet.textContent = JSON.parse(e.data).text;
-        tweets.appendChild(tweet);
+        tweets.innerHTML += e.data;
       };
       source.onerror = function (e) {
         console.log("error", e)

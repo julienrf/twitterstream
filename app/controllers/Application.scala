@@ -3,11 +3,13 @@ package controllers
 import play.api._
 import play.api.mvc._
 import play.api.libs.iteratee._
+import play.api.libs.concurrent.Promise
 import play.api.libs.ws._
 import play.api.libs.oauth._
 import views._
+import play.api.libs.json.{Json, JsValue}
 
-object Application extends Controller with OAuthAuthentication {
+object Application extends Controller with OAuthAuthentication with Twitter {
 
   def index = Authenticated { _ => request =>
     Ok(html.index())
@@ -24,15 +26,27 @@ object Application extends Controller with OAuthAuthentication {
 
   def tweets(keywords: String) = Authenticated { token => implicit request =>
 
-    val EventSource = Enumeratee.map[Array[Byte]] { bytes =>
-      "data:" + new String(bytes) + "\n\n"
+    val json = Enumeratee.map[Array[Byte]] { message =>
+      Json.parse(new String(message))
     }
 
-    Ok.stream { socket: Socket.Out[String] =>
-      WS.url("https://stream.twitter.com/1/statuses/filter.json?track=" + keywords)
-        .sign(OAuthCalculator(consumerKey, token))
-        .get(_ => EventSource &> socket)
-    } withHeaders CONTENT_TYPE -> EVENT_STREAM
+    val htmlTweet = Enumeratee.map[JsValue] { tweet =>
+      views.html.tweet(tweet).toString
+    }
+
+    val eventSource = Enumeratee.map[String] { str =>
+      (for (line <- str.split("\n")) yield {
+        "data:" + line + "\n"
+      }).mkString + "\n\n"
+    }
+
+    val enumerator = new Enumerator[Array[Byte]] {
+      def apply[A](iteratee: Iteratee[Array[Byte], A]) = {
+        tweetsStream(token)(keywords) { _ => iteratee }
+      }
+    }
+
+    Ok.feed(enumerator &> json ><> htmlTweet ><> eventSource).withHeaders(CONTENT_TYPE -> EVENT_STREAM)
   }
 
 }
