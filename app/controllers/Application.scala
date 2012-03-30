@@ -40,13 +40,13 @@ object Application extends Controller with OAuthAuthentication with Twitter {
       }).mkString + "\n\n"
     }
 
-    val enumerator = new Enumerator[Array[Byte]] {
+    val rawTweet = new Enumerator[Array[Byte]] {
       def apply[A](iteratee: Iteratee[Array[Byte], A]) = {
         tweetsStream(token)(keywords) { _ => iteratee }
       }
     }
 
-    Ok.feed(enumerator &> json ><> htmlTweet ><> eventSource).withHeaders(CONTENT_TYPE -> EVENT_STREAM)
+    Ok.feed(rawTweet &> json ><> htmlTweet ><> eventSource).withHeaders(CONTENT_TYPE -> EVENT_STREAM)
   }
 
 }
