@@ -7,6 +7,7 @@
     <title>@title</title>
     <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
     <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+    @helper.javascriptRouter("Routes")(routes.javascript.Application.tweets)
   </head>
   <body>
     @content
