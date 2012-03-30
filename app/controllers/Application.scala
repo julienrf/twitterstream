@@ -15,15 +15,6 @@ object Application extends Controller with OAuthAuthentication with Twitter {
     Ok(html.index())
   }
 
-  val authenticateCall = routes.Application.authenticate
-  val authenticatedCall = routes.Application.index
-
-  val consumerKey = ConsumerKey("UstozDw940RBShjqOhNQ", "DgJXSk2HAuDUaqwDqX8L6wb7Q15EGrzeT7qEJzACLA")
-  val oAuth = OAuth(ServiceInfo("https://api.twitter.com/oauth/request_token",
-    "https://api.twitter.com/oauth/access_token",
-    "https://api.twitter.com/oauth/authorize",
-    consumerKey))
-
   def tweets(keywords: String) = Authenticated { token => implicit request =>
 
     val json = Enumeratee.map[Array[Byte]] { message =>
@@ -48,5 +39,14 @@ object Application extends Controller with OAuthAuthentication with Twitter {
 
     Ok.feed(rawTweet &> json ><> htmlTweet ><> eventSource).withHeaders(CONTENT_TYPE -> EVENT_STREAM)
   }
+
+  val authenticateCall = routes.Application.authenticate
+  val authenticatedCall = routes.Application.index
+
+  val consumerKey = ConsumerKey("UstozDw940RBShjqOhNQ", "DgJXSk2HAuDUaqwDqX8L6wb7Q15EGrzeT7qEJzACLA")
+  val oAuth = OAuth(ServiceInfo("https://api.twitter.com/oauth/request_token",
+    "https://api.twitter.com/oauth/access_token",
+    "https://api.twitter.com/oauth/authorize",
+    consumerKey))
 
 }
