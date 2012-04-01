@@ -1,0 +1,90 @@
+.rounded-corners(@radius: 5px) {
+  border-radius:@radius;
+  -moz-border-radius:@radius;
+  -webkit-border-radius:@radius;
+}
+
+input[type="text"] {
+  width:420px;
+  margin:20px auto;
+  display:block;
+  border-top:1px solid #7C7C7C;
+  border-left:1px solid #C3C3C3;
+  border-right:1px solid #C3C3C3;
+  border-bottom:1px solid #DDD;
+  padding:2px;
+}
+
+/* Credits to http://csswizardry.com/2011/03/coding-up-a-semantic-lean-timeline/ */
+ol.tweets {
+  /* Spine */
+  background:url(http://dummyimage.com/1x1/f43059/f43059.gif) 10px 0 repeat-y;
+  width:400px;
+  margin:0 auto;
+  overflow:hidden;
+  list-style:none;
+  position:relative;
+
+  /* Dot */
+  &:before, &:after {
+    content:" ";
+    width:7px;
+    height:7px;
+    background:#f43059;
+    position:absolute;
+    top:0;
+    left:10px;
+    margin-left:-3px;
+
+    .rounded-corners(20px);
+  }
+
+  /* Arrow */
+  &:after {
+    margin-left:-7px;
+    background:none;
+    border:7px solid transparent;
+    border-top-color:#f43059;
+    width:0;
+    height:0;
+    top:auto;
+    bottom:-7px;
+
+    .rounded-corners(0px);
+  }
+
+  li {
+    position:relative;
+    padding:10px;
+    background:#fef8c4;
+    border:1px solid #d8d566;
+    margin: 15px 10px;
+
+    .rounded-corners(2px);
+    -moz-box-shadow:0 1px #fff inset;
+    -webkit-box-shadow:0 1px #fff inset;
+    box-shadow:0 1px #fff inset;
+
+    &:before {
+      position:absolute;
+      right:100%;
+      top:50%;
+      content:" ";
+      width:40px;
+      height:1px;
+      background:#f43059;
+      background:-moz-linear-gradient(0,#f43059,#d8d566);
+      background:-webkit-gradient(linear,left top,right top,from(#f43059),to(#d8d566));
+    }
+
+  }
+
+  span.author { /* TODO: time { */
+    font-weight:bold;
+  }
+
+}
+
+body {
+  font:0.8em/1.5em Verdana, Helvetica, Arial, sans-serif;
+}

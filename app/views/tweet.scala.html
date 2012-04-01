@@ -1,6 +1,4 @@
 @(json: play.api.libs.json.JsValue)
 
-<div class="tweet">
-  <span class="author">@((json \ "user" \ "screen_name").as[String])</span>
-  <span class="content">@((json \ "text").as[String])</span>
-</div>
+<span class="author">@((json \ "user" \ "screen_name").as[String])</span>
+<span class="content">@((json \ "text").as[String])</span>
