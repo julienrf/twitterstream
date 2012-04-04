@@ -11,10 +11,17 @@ import play.api.libs.json.{Json, JsValue}
 
 object Application extends Controller with OAuthAuthentication with Twitter {
 
+  /**
+   * Landing page
+   */
   def index = Authenticated { _ => request =>
     Ok(html.index())
   }
 
+  /**
+   * Stream tweets from the Twitter Streaming API
+   * @param keywords Terms to track
+   */
   def tweets(keywords: String) = Authenticated { token => implicit request =>
 
     val json = Enumeratee.map[Array[Byte]] { message =>

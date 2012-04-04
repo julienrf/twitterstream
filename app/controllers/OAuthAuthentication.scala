@@ -4,12 +4,21 @@ import play.api.libs.oauth._
 import play.api.mvc._
 import play.api.Logger
 
+/**
+ * Basic OAuth authentication implementation
+ */
 trait OAuthAuthentication { this: Controller =>
 
+  /** Authentication Call */
   def authenticateCall: Call
+  /** Call to be redirected to, when authenticated */
   def authenticatedCall: Call
+  /** OAuth settings to use */
   def oAuth: OAuth
 
+  /**
+   * Perform authentication according to the OAuth protocol
+   */
   def authenticate = Action { implicit request =>
 
     val verifierAndTokens = for {
@@ -37,6 +46,18 @@ trait OAuthAuthentication { this: Controller =>
     result.right.getOrElse(InternalServerError("Authentication failed!"))
   }
 
+  /**
+   * Helper to write secured actions.
+   * The wrapped action `action` will be called only if the current user is authenticated. Otherwise a redirect to the
+   * authentication action will be returned.
+   * 
+   * Example of use:
+   * {{{
+   *   def securedAction = Authenticated { token => request =>
+   *     Ok(...)
+   *   }
+   * }}}
+   */
   def Authenticated(action: RequestToken => RequestHeader => Result) = Action { implicit request =>
     sessionTokens match {
       case Some(tokens) => action(tokens)(request)
@@ -44,7 +65,10 @@ trait OAuthAuthentication { this: Controller =>
     }
   }
 
-  def sessionTokens(implicit request: RequestHeader) = {
+  /**
+   * Retrieve the request token from the session
+   */
+  def sessionTokens(implicit request: RequestHeader): Option[RequestToken] = {
     for {
       token <- session.get("token")
       secret <- session.get("secret")
