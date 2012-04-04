@@ -1,26 +1,44 @@
+@import "lib.less";
+@import "lib";
+html, body{
+  margin: 0;
+  padding: 0;
+}
+body{
+  font:0.8em/1.5em Verdana, Helvetica, Arial, sans-serif;
+  background: #f1efeb;
+  color: #4b361c;
+}
+//////// LIB //////////////////////////////////////
 .rounded-corners(@radius: 5px) {
   border-radius:@radius;
   -moz-border-radius:@radius;
   -webkit-border-radius:@radius;
 }
-
-input[type="text"] {
-  width:420px;
-  margin:20px auto;
-  display:block;
-  border-top:1px solid #7C7C7C;
-  border-left:1px solid #C3C3C3;
-  border-right:1px solid #C3C3C3;
-  border-bottom:1px solid #DDD;
-  padding:2px;
+//Box shadows
+.bloc-shadow (@color: #c8c4bb){
+  -moz-box-shadow: 0px 1px 2px @color;
+  -webkit-box-shadow: 0px 1px 2px @color;
+  box-shadow: 0px 1px 2px @color;
 }
+.input-shadow (@color: #c8c4bb){
+  -moz-box-shadow:inset 0px 1px 1px @color;
+  -webkit-box-shadow:inset 0px 1px 1px @color;
+  box-shadow:inset 0px 1px 1px @color;
+}
+.border-box(@value: border-box){
+  -webkit-box-sizing: @value;
+  -moz-box-sizing: @value;
+  box-sizing: @value;
+}
+///////////////////////////////////////////////////
 
 /* Credits to http://csswizardry.com/2011/03/coding-up-a-semantic-lean-timeline/ */
 ol.tweets {
   /* Spine */
-  background:url(http://dummyimage.com/1x1/f43059/f43059.gif) 10px 0 repeat-y;
-  width:400px;
-  margin:0 auto;
+  //background:url(http://dummyimage.com/1x1/414257/414257.gif) 10px 0 repeat-y;
+  background:url(../images/timeline.png) 10px 0 repeat-y;
+  width:100%;
   overflow:hidden;
   list-style:none;
   position:relative;
@@ -30,7 +48,7 @@ ol.tweets {
     content:" ";
     width:7px;
     height:7px;
-    background:#f43059;
+    background:#d9693d;
     position:absolute;
     top:0;
     left:10px;
@@ -44,7 +62,7 @@ ol.tweets {
     margin-left:-7px;
     background:none;
     border:7px solid transparent;
-    border-top-color:#f43059;
+    border-top-color:#d9693d;
     width:0;
     height:0;
     top:auto;
@@ -56,14 +74,11 @@ ol.tweets {
   li {
     position:relative;
     padding:10px;
-    background:#fef8c4;
-    border:1px solid #d8d566;
+    background: #fff;
     margin: 15px 10px;
-
-    .rounded-corners(2px);
-    -moz-box-shadow:0 1px #fff inset;
-    -webkit-box-shadow:0 1px #fff inset;
-    box-shadow:0 1px #fff inset;
+    .bloc-shadow;
+    .border-box;
+    .rounded-corners(6px);
 
     &:before {
       position:absolute;
@@ -72,19 +87,64 @@ ol.tweets {
       content:" ";
       width:40px;
       height:1px;
-      background:#f43059;
-      background:-moz-linear-gradient(0,#f43059,#d8d566);
-      background:-webkit-gradient(linear,left top,right top,from(#f43059),to(#d8d566));
+      background:#d9693d;
+      background:-moz-linear-gradient(0,#f1936f,#f1efeb);
+      background:-webkit-gradient(linear,left top,right top,from(#f1936f),to(#f1efeb));
     }
 
   }
 
   span.author { /* TODO: time { */
     font-weight:bold;
+    color: #f1936f;
   }
 
 }
+*{
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.wrapper{
+  width: 700px;
+  margin: 0 auto;
+}
+.header{
+  background: #322e2c;
+  height: 120px;
+  .border-box;
+  padding: 30px;
+  border-bottom: 1px solid #fff;
+}
+section{
+  width: 860px;
+  margin: 10px auto;
+}
+.input-section{
+  height: 60px;
+  background: #211e1d;
+  .rounded-corners(6px);
+  .border-box;
+  margin: 0 0 0 35px;
+  padding: 10px;
 
-body {
-  font:0.8em/1.5em Verdana, Helvetica, Arial, sans-serif;
+  input[type="text"]{
+    background: #f1efeb;
+    padding: 0 15px;
+    border: 0;
+    font-size: 14px;
+    .border-box;
+    .rounded-corners(4px);
+    width: 100%;
+    height: 40px;
+    color: #f1936f;
+    font-weight: bold;
+  }
+}
+.results{
+  width: 600px;
+  .border-box;
+  margin: 0 auto;
+  padding: 20px 0 0;
 }
