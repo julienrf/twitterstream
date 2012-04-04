@@ -21,8 +21,10 @@ object Application extends Controller with OAuthAuthentication with Twitter {
       Json.parse(new String(message))
     }
 
-    val htmlTweet = Enumeratee.map[JsValue] { tweet =>
-      views.html.tweet(tweet).toString
+    val htmlTweet = Enumeratee.map[JsValue] { json =>
+      val user = (json \ "user" \ "screen_name").as[String]
+      val content = (json \ "text").as[String]
+      views.html.tweet(user, content).toString
     }
 
     val eventSource = Enumeratee.map[String] { str =>

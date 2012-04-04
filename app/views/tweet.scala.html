@@ -1,4 +1,4 @@
-@(json: play.api.libs.json.JsValue)
+@(author: String, content: String)
 
-<span class="author">@((json \ "user" \ "screen_name").as[String])</span>
-<span class="content">@((json \ "text").as[String])</span>
+<span class="author">@author</span>
+<span class="content">@content</span>
