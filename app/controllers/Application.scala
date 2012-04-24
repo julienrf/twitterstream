@@ -14,7 +14,7 @@ object Application extends Controller with OAuthAuthentication with Twitter {
   /**
    * Landing page
    */
-  def index = Authenticated { _ => request =>
+  def index = Authenticated { _ => implicit request =>
     Ok(html.index())
   }
 
