@@ -12,7 +12,10 @@
 
 <section>
   <div class="results">
-   <ol class="tweets"></ol>
+    <div class="info" style="display: none;">
+      Showing tweets about “<span class="keyword"></span>”. <button class="clear">Clear</button> <button class="stop">Stop</button>
+    </div>
+    <ol class="tweets"></ol>
   </div>
 </section>
 <script src="@routes.Assets.at("javascripts/timeline.min.js")"></script>

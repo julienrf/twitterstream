@@ -36,7 +36,6 @@ ol.tweets {
   /* Spine */
   //background:url(http://dummyimage.com/1x1/414257/414257.gif) 10px 0 repeat-y;
   background:url(../images/timeline.png) 10px 0 repeat-y;
-  width:100%;
   overflow:hidden;
   list-style:none;
   position:relative;
@@ -144,5 +143,40 @@ section{
   width: 600px;
   .border-box;
   margin: 0 auto;
-  padding: 20px 0 0;
+  .info {
+    padding: 4px 0;
+    background: rgba(0,0,0,.04);
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+    margin: 15px 10px 20px 50px;
+    text-align: center;
+  }
+}
+
+button {
+  border: 0;
+  padding: 3px 8px;
+  background: #F1936F;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 3px;
+}
+
+.tweets li {
+  -webkit-animation: showTwit 1s ease-out;
+}
+@-webkit-keyframes showTwit {
+  0% {
+    background: #fff;
+  }
+  20% {
+    box-shadow: 0 0 15px #f1936f;
+    background: lighten(#f1936f, 25%);
+  }
+  40% {
+    background: #fff;
+  }
+  100% {
+  }
 }
